@@ -30,4 +30,8 @@ defmodule Peek.Bookings do
         |> Repo.insert()
     end
   end
+
+  def list_bookings do
+    Repo.all(Booking)
+  end
 end

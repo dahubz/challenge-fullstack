@@ -1,0 +1,44 @@
+{{input type='date' value=(mut selectedDate)}}
+<button {{action 'filterForSelectedDate'}}>Select date</button>
+
+<table>
+  <tbody>
+    {{#each-in this.timeToEventMap as |timeFrame events|}}
+      <tr>
+        <td>
+          <span class='mx-2'>{{timeFrame}}</span>
+        </td>
+        {{#each-in events as |index event|}}
+          <tr>
+            <td><span class='mx-2'>{{event.title}}</span>
+              <button {{action 'clicked' event}}>Book It Now</button>
+            </td>
+          </tr>
+        {{/each-in}}
+      </tr>
+    {{/each-in}}
+  </tbody>
+</table>
+
+<BsModal @open={{this.showModal}} @onHidden={{action 'closeModal'}} as |modal|>
+  <modal.header>
+    <h4 class='modal-title'>
+      Add booking for Event with ID:
+      <div class='badge'>{{this.eventId}}</div>
+    </h4>
+  </modal.header>
+  <modal.body>
+    <label>
+      First Name:
+      <Input @type='text' @value={{this.firstName}} />
+    </label>
+    <label>
+      Last Name:
+      <Input @type='text' @value={{this.lastName}} />
+    </label>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{action 'closeModal'}}>Cancel</BsButton>
+    <BsButton @type='success' @onClick={{action 'submit'}}>Save</BsButton>
+  </modal.footer>
+</BsModal>

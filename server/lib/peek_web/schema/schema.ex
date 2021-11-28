@@ -10,6 +10,19 @@ defmodule PeekWeb.Schema.Schema do
   alias PeekWeb.Resolvers.BookingResolver
 
   #
+  # Mutations
+  #
+  mutation do
+    @desc "Create a booking"
+    field :create_booking, :booking do
+      arg(:event_id, non_null(:id))
+      arg(:first_name, non_null(:string))
+      arg(:last_name, non_null(:string))
+      resolve(&BookingResolver.create_booking/3)
+    end
+  end
+
+  #
   # Queries
   #
   query do
@@ -23,20 +36,22 @@ defmodule PeekWeb.Schema.Schema do
   # Event Object
   #
   object :event do
-    field :id, non_null(:id)
-    field :start, non_null(:naive_datetime)
-    field :duration, non_null(:integer)
-    field :title, non_null(:string)
+    field(:id, non_null(:id))
+    field(:start, non_null(:naive_datetime))
+    field(:duration, non_null(:integer))
+    field(:title, non_null(:string))
 
-    field :bookings, non_null(list_of(non_null(:booking))), resolve: &BookingResolver.get_bookings/3
+    field(:bookings, non_null(list_of(non_null(:booking))),
+      resolve: &BookingResolver.get_bookings/3
+    )
   end
 
   #
   # Booking Object
   #
   object :booking do
-    field :first_name, non_null(:string)
-    field :last_name, non_null(:string)
+    field(:event_id, non_null(:id))
+    field(:first_name, non_null(:string))
+    field(:last_name, non_null(:string))
   end
-
 end

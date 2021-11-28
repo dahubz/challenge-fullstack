@@ -1,0 +1,11 @@
+mutation CreateBookingMutation(
+  $eventId: ID
+  $firstName: String
+  $lastName: String
+) {
+  createBooking(eventId: $eventId, firstName: $firstName, lastName: $lastName) {
+    eventId
+    firstName
+    lastName
+  }
+}
